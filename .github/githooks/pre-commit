@@ -1,0 +1,16 @@
+#!/bin/sh
+echo "Starting Gitleaks analysis"
+OUT=$(./.github/lib/gitleaks/gitleaks protect -v --staged)
+
+if ! [ -z "${OUT}" ]; then
+	echo "----------Secrets found in commit via GitLeaks------------"
+	echo "----------Start Printing Findings------------"
+	echo "${OUT}"
+	echo "----------EndPrinting Findings------------"
+	echo "Please Remove Secrets before commiting to repo"
+	exit 1
+else
+	echo "No secrets found in commit after GitLeaks scan"
+fi
+
+exit 0
